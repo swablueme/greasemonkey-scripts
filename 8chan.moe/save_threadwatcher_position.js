@@ -17,7 +17,7 @@ var OG_VALUE_TOP_KEY = "og_value_top";
 var thread_watcher = null;
 
 function observeStyleChanges() {
-  // if values change them save 'em to the lcoal storage
+  // if values change them save 'em to the local storage
   if (
     thread_watcher?.style.left != og_value_left ||
     thread_watcher?.style.right != og_value_top
