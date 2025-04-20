@@ -16,7 +16,8 @@ var OG_VALUE_LEFT_KEY = "og_value_left";
 var OG_VALUE_TOP_KEY = "og_value_top";
 var thread_watcher = null;
 
-function checkStyleChanges() {
+function observeStyleChanges() {
+  // if values change them save 'em to the lcoal storage
   if (
     thread_watcher?.style.left != og_value_left ||
     thread_watcher?.style.right != og_value_top
@@ -28,23 +29,23 @@ function checkStyleChanges() {
   }
 }
 
-new MutationObserver(check).observe(document, {
+new MutationObserver(observeUntilPageHasLoaded).observe(document, {
   childList: true,
   subtree: true,
 });
-new MutationObserver(checkStyleChanges).observe(document, {
+new MutationObserver(observeStyleChanges).observe(document, {
   childList: true,
   subtree: true,
 });
 
-function check(changes, observer) {
+function observeUntilPageHasLoaded(changes, observer) {
   thread_watcher = document.getElementById("watchedMenu");
   if (thread_watcher) {
     observer.disconnect();
-    console.log(thread_watcher);
 
-    og_value_left = localStorage.getItem("og_value_left");
-    og_value_top = localStorage.getItem("og_value_top");
+    // retrieve saved values if they exist
+    og_value_left = localStorage.getItem(OG_VALUE_LEFT_KEY);
+    og_value_top = localStorage.getItem(OG_VALUE_TOP_KEY);
     if (
       og_value_left != null &&
       og_value_top != null &&
@@ -55,6 +56,7 @@ function check(changes, observer) {
       thread_watcher.style.top = og_value_top;
     }
 
+    // display the thread watcher
     thread_watcher.className = "floatingMenu focused";
     thread_watcher.style.display = "flex";
   }
