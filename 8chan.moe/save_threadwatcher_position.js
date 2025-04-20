@@ -11,16 +11,21 @@
 // ==/UserScript==
 
 var og_value_left = thread_watcher?.style.left;
+var og_value_top = thread_watcher?.style.top;
+var OG_VALUE_LEFT_KEY = "og_value_left";
+var OG_VALUE_TOP_KEY = "og_value_top";
 var thread_watcher = null;
-
-var og_style = thread_watcher?.style;
 
 function checkStyleChanges() {
   thread_watcher = document.getElementById("watchedMenu");
-  if (thread_watcher?.style.left != og_value_left) {
+  if (
+    thread_watcher?.style.left != og_value_left ||
+    thread_watcher?.style.right != og_value_top
+  ) {
     og_value_left = thread_watcher?.style.left;
-    console.log("changed to: " + og_value_left);
-    localStorage.setItem("og_value_left", og_value_left);
+    og_value_top = thread_watcher?.style.top;
+    localStorage.setItem(OG_VALUE_LEFT_KEY, og_value_left);
+    localStorage.setItem(OG_VALUE_TOP_KEY, og_value_top);
   }
 }
 
@@ -38,14 +43,20 @@ function check(changes, observer) {
     observer.disconnect();
     thread_watcher = document.getElementById("watchedMenu");
     console.log(thread_watcher);
+
     og_value_left = localStorage.getItem("og_value_left");
-    if (og_value_left) {
+    og_value_top = localStorage.getItem("og_value_top");
+    if (
+      og_value_left != null &&
+      og_value_top != null &&
+      og_value_left != "" &&
+      og_value_top != ""
+    ) {
       thread_watcher.style.left = og_value_left;
+      thread_watcher.style.top = og_value_top;
     }
 
     thread_watcher.className = "floatingMenu focused";
     thread_watcher.style.display = "flex";
-    og_style = thread_watcher.style;
-    console.log(og_style);
   }
 }
