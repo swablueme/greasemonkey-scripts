@@ -2,7 +2,7 @@
 // @name         Show threadwatcher on 8chan.moe
 // @namespace    http://tampermonkey.net/
 // @version      2025-04-20
-// @description  Forces the threadwatcher to permanent visibility on 8chan.moe
+// @description  Forces the threadwatcher to be visible on page load for 8chan.moe and save the position of it
 // @author       You
 // @match        https://8chan.se/*
 // @match        https://8chan.moe/*
